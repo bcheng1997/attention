@@ -33,12 +33,12 @@ class SelfAttention(nn.Module):
         num_examples = query.shape[0] # number of training examples (aka batch size)
         value_len, key_len, query_len = values.shape[1], keys.shape[1], query.shape[1]
 
-        # init Q K V
+        # init W_Q, W_K, W_V
         values  = self.values(values) # (num_examples, value_len, embed_size)
         keys    = self.keys(keys)     # (num_examples, key_len, embed_size)
         queries = self.queries(query) # (num_examples, query_len, embed_size)
 
-        # slice up Q K V for multihead attention
+        # slice up W_Q W_K W_V for multihead attention
         values  =   values.reshape(num_examples, self.num_heads, value_len, self.head_dim)
         keys    =     keys.reshape(num_examples, self.num_heads, key_len,   self.head_dim)
         queries =  queries.reshape(num_examples, self.num_heads, query_len, self.head_dim)
